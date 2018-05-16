@@ -15,6 +15,7 @@ android {
                 cppFlags ""
             }
         }
+
     }
     buildTypes {
         release {
@@ -39,4 +40,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
+    compile 'com.google.android.gms:play-services-maps:11.0.4'
+    compile 'com.android.support:multidex:1.0.1'
 }

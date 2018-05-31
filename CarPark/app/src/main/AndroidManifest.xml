@@ -45,8 +45,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <meta-data android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyANWFF3NTOkAYEceNJOZPWC5xecLXPx-I4" />
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAnRkJ_6Ih_RtkbB-sR3GiWnn8sNRzPScA" />
+
         <meta-data android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 

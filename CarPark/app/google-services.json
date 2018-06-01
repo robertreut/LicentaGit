@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "597572897354",
+    "firebase_url": "https://licenta-carpark.firebaseio.com",
+    "project_id": "licenta-carpark",
+    "storage_bucket": "licenta-carpark.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:597572897354:android:de980b80f4c6236a",
+        "android_client_info": {
+          "package_name": "com.example.robert.carpark"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "597572897354-rerq2nb40ddf8u21vb416jgdr1gtfs0l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.robert.carpark",
+            "certificate_hash": "3f18f41173925459ebf2c73ba13f615e380cbe48"
+          }
+        },
+        {
+          "client_id": "597572897354-itnqrqkn3jcobei0pb4rgo08keppjb57.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "597572897354-itnqrqkn3jcobei0pb4rgo08keppjb57.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxFxSzRBJ1Uorr_02on4zKadjbHtp8tSc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "597572897354-itnqrqkn3jcobei0pb4rgo08keppjb57.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

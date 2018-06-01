@@ -3,6 +3,7 @@ package com.example.robert.carpark;
 import android.*;
 import android.Manifest;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -28,6 +29,8 @@ import android.widget.Toast;
 import com.example.robert.carpark.models.PlaceInfo;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -38,6 +41,7 @@ import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -64,9 +68,11 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private Boolean mLocationPermissionsGranted = false;
     private static final float DEFAULT_ZOOM = 16f;
+    private static final int PLACE_PICKER_REQUEST = 1;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private AutoCompleteTextView mSearchText;
     private ImageView mGps;
+    private ImageView mPlacePicker;
     protected GeoDataClient mGeoDataClient;
     private PlaceAutocompleteAdapter mPlaceAutocompleteAdapter;
     private GoogleApiClient mGoogleApiClient;
@@ -81,8 +87,8 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
             Toast.makeText(this, "Welcome!", Toast.LENGTH_LONG).show();
             setContentView(R.layout.activity_search);
             mSearchText = (AutoCompleteTextView) findViewById(R.id.input_search);
-            mGps  = (ImageView) findViewById(R.id.ic_gps);
-
+            mGps = (ImageView) findViewById(R.id.ic_gps);
+            mPlacePicker = (ImageView) findViewById(R.id.place_Picker);
             getLocationPermission();
         } else {
             //No google maps layout
@@ -125,11 +131,41 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
                 getDeviceLocation();
             }
         });
+        mPlacePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int PLACE_PICKER_REQUEST = 1;
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+                try {
+                    startActivityForResult(builder.build(SearchActivity.this), PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                     Log.e(TAG,"onClick: GooglePlayServicesRepairableException: " + e.getMessage() );
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    Log.e(TAG,"onClick: GooglePlayServicesRepairableException: " + e.getMessage() );
+                }
+            }
+        });
+
 
         hideSoftKeyboard();
     }
 
-     private void geoLocate(){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(this, data);
+                PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
+                        .getPlaceById(mGoogleApiClient, place.getId());
+                placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
+
+//                String toastMsg = String.format("Place: %s", place.getName());
+//                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private void geoLocate(){
         Log.d(TAG, "geoLocate: geolocating");
 
         String searchString = mSearchText.getText().toString();

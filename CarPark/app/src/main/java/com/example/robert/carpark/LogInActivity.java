@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.*;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -62,7 +64,7 @@ public class LogInActivity extends AppCompatActivity {
         _loginButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(LogInActivity.this,
-                R.style.AppTheme_Dark_Dialog);
+                R.style.    AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();

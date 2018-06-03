@@ -1,6 +1,7 @@
 package com.example.robert.carpark;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,10 +16,12 @@ import butterknife.InjectView;
 
 public class SignUpActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
+    private static final int REQUEST_SIGNUP = 0;
 
     @InjectView(R.id.input_name) EditText _nameText;
     @InjectView(R.id.input_email) EditText _emailText;
     @InjectView(R.id.input_password) EditText _passwordText;
+    @InjectView(R.id.input_reEnterPassword) EditText _password2Text;
     @InjectView(R.id.btn_signup) Button _signupButton;
     @InjectView(R.id.link_login) TextView _loginLink;
 
@@ -63,7 +66,7 @@ public class SignUpActivity extends AppCompatActivity {
         String name = _nameText.getText().toString();
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
-
+        String password2 = _password2Text.getText().toString();
         // TODO: Implement your own signup logic here.
 
         new android.os.Handler().postDelayed(
@@ -81,12 +84,15 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
+        Toast.makeText(getBaseContext(), "Please check email and then login!", Toast.LENGTH_LONG).show();
         setResult(RESULT_OK, null);
+        Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
+        startActivityForResult(intent, REQUEST_SIGNUP);
         finish();
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Sign up failed", Toast.LENGTH_LONG).show();
 
         _signupButton.setEnabled(true);
     }

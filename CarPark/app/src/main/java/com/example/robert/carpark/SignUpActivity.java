@@ -3,6 +3,7 @@ package com.example.robert.carpark;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -11,12 +12,21 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.internal.RegisterListenerMethod;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class SignUpActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
     private static final int REQUEST_SIGNUP = 0;
+    private FirebaseAuth mAuth;
+
 
     @InjectView(R.id.input_name) EditText _nameText;
     @InjectView(R.id.input_email) EditText _emailText;
@@ -30,6 +40,7 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         ButterKnife.inject(this);
+        mAuth = FirebaseAuth.getInstance();
 
         _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,10 +74,9 @@ public class SignUpActivity extends AppCompatActivity {
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
 
-        String name = _nameText.getText().toString();
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
-        String password2 = _password2Text.getText().toString();
+        registerNewEmail(email,password);
         // TODO: Implement your own signup logic here.
 
         new android.os.Handler().postDelayed(
@@ -84,7 +94,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
-        Toast.makeText(getBaseContext(), "Please check email and then login!", Toast.LENGTH_LONG).show();
         setResult(RESULT_OK, null);
         Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
         startActivityForResult(intent, REQUEST_SIGNUP);
@@ -103,6 +112,8 @@ public class SignUpActivity extends AppCompatActivity {
         String name = _nameText.getText().toString();
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
+        String password2 = _password2Text.getText().toString();
+
 
         if (name.isEmpty() || name.length() < 3) {
             _nameText.setError("at least 3 characters");
@@ -125,6 +136,60 @@ public class SignUpActivity extends AppCompatActivity {
             _passwordText.setError(null);
         }
 
+        if (!doStringsMatch(password,password2)) {
+            _password2Text.setError("passwords do not match");
+            valid = false;
+        } else {
+            _password2Text.setError(null);
+        }
+
         return valid;
+    }
+
+    private boolean doStringsMatch(String s1, String s2) {
+        return  s1.equals(s2);
+    }
+
+    private void registerNewEmail(String email, String password) {
+
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "createUserWithEmail:success");
+                            sendVerificationEmail();
+
+                            FirebaseUser user = mAuth.getCurrentUser();
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        // ...
+                    }
+                });
+    }
+
+    public void sendVerificationEmail() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(SignUpActivity.this, "Sent verification email", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(SignUpActivity.this, "Couldn't Send verification email", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
+        }
     }
 }

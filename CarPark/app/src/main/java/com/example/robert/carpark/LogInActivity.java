@@ -2,6 +2,7 @@ package com.example.robert.carpark;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -12,6 +13,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.*;
 
 import butterknife.ButterKnife;
@@ -20,6 +24,9 @@ import butterknife.InjectView;
 public class LogInActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private Boolean authenticated = Boolean.FALSE;
+
 
     @InjectView(R.id.input_email) EditText _emailText;
     @InjectView(R.id.input_password) EditText _passwordText;
@@ -30,15 +37,16 @@ public class LogInActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+        authenticated = Boolean.FALSE;
         ButterKnife.inject(this);
+        setupFirebaseAuth();
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 login();
-                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
-                startActivityForResult(intent, REQUEST_SIGNUP);
+
             }
         });
 
@@ -64,7 +72,7 @@ public class LogInActivity extends AppCompatActivity {
         _loginButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(LogInActivity.this,
-                R.style.    AppTheme_Dark_Dialog);
+                R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
@@ -74,12 +82,29 @@ public class LogInActivity extends AppCompatActivity {
 
         // TODO: Implement your own authentication logic here.
 
+        Log.d(TAG, "OnClick: attempting to authenticate.");
+
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).
+                addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //Toast.makeText(LogInActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
                         // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
+                        //onLoginSuccess();
+                        onLoginFailed();
                         progressDialog.dismiss();
                     }
                 }, 3000);
@@ -93,7 +118,9 @@ public class LogInActivity extends AppCompatActivity {
 
                 // TODO: Implement successful signup logic here
                 // By default we just finish the Activity and log them in automatically
-                this.finish();
+                //this.finish();
+                //onLoginFailed();
+               // return;
             }
         }
     }
@@ -110,8 +137,9 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-
+        if(authenticated == Boolean.FALSE) {
+            Toast.makeText(getBaseContext(), "Authentication failed", Toast.LENGTH_LONG).show();
+        }
         _loginButton.setEnabled(true);
     }
 
@@ -136,5 +164,46 @@ public class LogInActivity extends AppCompatActivity {
         }
 
         return valid;
+    }
+
+    public void setupFirebaseAuth() {
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                if(user != null) {
+                    if(user.isEmailVerified()) {
+                        Log.d(TAG, "onAuthStateChanged: singed_in: " + user.getUid());
+                        Toast.makeText(LogInActivity.this, "Authenticated with: " + user.getEmail(),
+                                Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                        startActivityForResult(intent, REQUEST_SIGNUP);
+                        authenticated = Boolean.TRUE;
+                    }else {
+                        Toast.makeText(LogInActivity.this, "Check your email inbox for a verification link!",
+                                Toast.LENGTH_SHORT).show();
+                        FirebaseAuth.getInstance().signOut();
+                    }
+                }else {
+                    Log.d(TAG, "onAuthStateChanged: signed_out");
+                }
+            }
+        };
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseAuth.getInstance().addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(mAuthListener != null) {
+            FirebaseAuth.getInstance().removeAuthStateListener(mAuthListener);
+        }
     }
 }

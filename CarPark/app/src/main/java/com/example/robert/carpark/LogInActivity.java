@@ -22,6 +22,8 @@ import com.google.firebase.auth.*;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
+import com.example.robert.carpark.PasswordResetDialog;
+
 public class LogInActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
@@ -78,6 +80,7 @@ public class LogInActivity extends AppCompatActivity {
                 dialog.show(getSupportFragmentManager(), "dialog_resend_email_verification");
             }
         });
+
     }
 
 
@@ -125,7 +128,11 @@ public class LogInActivity extends AppCompatActivity {
                         // On complete call either onLoginSuccess or onLoginFailed
                         //onLoginSuccess();
                         onLoginFailed();
-                        progressDialog.dismiss();
+
+                        if (!LogInActivity.this.isFinishing() && progressDialog != null) {
+                            progressDialog.dismiss();
+                        }
+
                     }
                 }, 3000);
     }

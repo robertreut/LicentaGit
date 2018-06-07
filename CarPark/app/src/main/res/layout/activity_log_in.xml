@@ -56,10 +56,30 @@
         <TextView android:id="@+id/link_signup"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="10dp"
             android:text="No account yet? Create one"
             android:gravity="center"
             android:textSize="16dip"/>
+
+        <TextView android:id="@+id/forgot_password"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Forgot password"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:gravity="center"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:id="@+id/resend_verification_email"
+            android:text="Resend verification email"
+            android:textSize="16sp"
+            android:layout_marginBottom="20dp"
+            android:layout_centerHorizontal="true"/>
 
     </LinearLayout>
 </ScrollView>

@@ -1,6 +1,7 @@
 package com.example.robert.carpark;
 
 import android.app.ProgressDialog;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -59,7 +60,26 @@ public class LogInActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_SIGNUP);
             }
         });
+
+        TextView resetPassword = (TextView) findViewById(R.id.forgot_password);
+        resetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PasswordResetDialog dialog = new PasswordResetDialog();
+                dialog.show(getSupportFragmentManager(), "dialog_password_reset");
+            }
+        });
+
+        TextView resendEmailVerification = (TextView) findViewById(R.id.resend_verification_email);
+        resendEmailVerification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ResendVerificationDialog dialog = new ResendVerificationDialog();
+                dialog.show(getSupportFragmentManager(), "dialog_resend_email_verification");
+            }
+        });
     }
+
 
     public void login() {
         Log.d(TAG, "Login");
@@ -181,6 +201,7 @@ public class LogInActivity extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
                         startActivityForResult(intent, REQUEST_SIGNUP);
                         authenticated = Boolean.TRUE;
+                        finish();
                     }else {
                         Toast.makeText(LogInActivity.this, "Check your email inbox for a verification link!",
                                 Toast.LENGTH_SHORT).show();
@@ -206,4 +227,47 @@ public class LogInActivity extends AppCompatActivity {
             FirebaseAuth.getInstance().removeAuthStateListener(mAuthListener);
         }
     }
+
+    //////////////////////////User Account prorpieties////////////////////////////////
+    private void getUserDetails() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if(user != null) {
+            String uid = user.getUid();
+            String name = user.getDisplayName();
+            String email = user.getEmail();
+            Uri photoUrl = user.getPhotoUrl();
+            String phoneNumber = user.getPhoneNumber();
+
+            String proprieties = " uid: " + uid + "\n" +
+                    "name: " + name + "\n" +
+                    "email: " + email + "\n" +
+                    "photoUrl: " + photoUrl + "\n" +
+                    "phoneNumber: " + phoneNumber;
+            Log.d(TAG, "getUserDetails: proprieties: \n" + proprieties);
+        }
+    }
+
+    private void setUserDetails() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if(user != null) {
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName("Robert Reut")
+                    .setPhotoUri((Uri.parse("https://www.google.ro/imgres?imgurl=http%3A%2F%2Fi.imgur.com%2FhfH9CiC.png&imgrefurl=https%3A%2F%2Flaracasts.com%2Fdiscuss%2Fchannels%2Fgeneral-discussion%2Ftrying-to-use-piece-of-class-object-inside-function-in-the-class&docid=_F2RkAevkGX7BM&tbnid=VXk8oH8_MzYk0M%3A&vet=10ahUKEwiW_Pjgz7_bAhUKK1AKHVlfBBUQMwg0KAAwAA..i&w=200&h=200&bih=672&biw=1366&q=generic%20user%20photo&ved=0ahUKEwiW_Pjgz7_bAhUKK1AKHVlfBBUQMwg0KAAwAA&iact=mrc&uact=8")))
+                    .build();
+            user.updateProfile(profileUpdates)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()) {
+                                Log.d(TAG, "OnComplete: User profile updated.");
+
+                                getUserDetails();
+                            }
+                        }
+                    });
+        }
+    }
+
 }

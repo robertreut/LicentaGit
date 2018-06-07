@@ -53,6 +53,8 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -94,6 +96,34 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
             //No google maps layout
         }
     }
+
+    //ADD THIS TO ALL ACTIVITIES
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkAuthenticationState();
+    }
+
+
+
+
+    private void checkAuthenticationState(){
+        Log.d(TAG, "checkAuthenticationState: checking authentication state.");
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if(user == null){
+            Log.d(TAG, "checkAuthenticationState: user is null, navigating back to login screen.");
+
+            Intent intent = new Intent(SearchActivity.this, LogInActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }else{
+            Log.d(TAG, "checkAuthenticationState: user is authenticated.");
+        }
+    }
+
     private void init(){
         Log.d(TAG, "init: initializing");
 

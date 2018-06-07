@@ -165,6 +165,7 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
         Log.d(TAG, "signOut: signing out");
         FirebaseAuth.getInstance().signOut();
         intent = new Intent(SearchActivity.this, LogInActivity.class);
+        Toast.makeText(this,"Signed Out",Toast.LENGTH_SHORT).show();
         startActivity(intent);
         finish();
     }

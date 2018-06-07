@@ -30,6 +30,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     @InjectView(R.id.input_name) EditText _nameText;
     @InjectView(R.id.input_email) EditText _emailText;
+    @InjectView(R.id.input_mobile) EditText _inputMobile;
     @InjectView(R.id.input_password) EditText _passwordText;
     @InjectView(R.id.input_reEnterPassword) EditText _password2Text;
     @InjectView(R.id.btn_signup) Button _signupButton;

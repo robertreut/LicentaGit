@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/SignOut"
+        android:title="Sign Out"/>
+    <item
+        android:id="@+id/AccountSettings"
+        android:title="Account Settings"/>
+    <item
+        android:id="@+id/LeaderBoard"
+        android:title="Leaderboard"/>
+    <item
+        android:id="@+id/Report"
+        android:title="Report"/>
+
+</menu>

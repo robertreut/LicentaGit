@@ -16,6 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
@@ -104,6 +106,37 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
         checkAuthenticationState();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_activity_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()){
+            case R.id.SignOut:
+                signOut();
+                return true;
+            case R.id.AccountSettings:
+                intent = new Intent(SearchActivity.this, SignUpActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.LeaderBoard:
+                intent = new Intent(SearchActivity.this, SignUpActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.Report:
+                intent = new Intent(SearchActivity.this, SignUpActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
 
 
@@ -123,6 +156,19 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
             Log.d(TAG, "checkAuthenticationState: user is authenticated.");
         }
     }
+
+    /**
+     * Sign out the current user
+     */
+    private void signOut(){
+        Intent intent;
+        Log.d(TAG, "signOut: signing out");
+        FirebaseAuth.getInstance().signOut();
+        intent = new Intent(SearchActivity.this, LogInActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
 
     private void init(){
         Log.d(TAG, "init: initializing");

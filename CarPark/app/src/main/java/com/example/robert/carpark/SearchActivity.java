@@ -121,7 +121,7 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
                 signOut();
                 return true;
             case R.id.AccountSettings:
-                intent = new Intent(SearchActivity.this, SignUpActivity.class);
+                intent = new Intent(SearchActivity.this, AccountSettingsActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.LeaderBoard:

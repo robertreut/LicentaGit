@@ -17,4 +17,5 @@
     <color name="violet">#8c7b89</color>
     <color name="violet_darker">#847481</color>
     <color name="violet_lighter">#ccc1ca</color>
+    <color name="grey">#bfbfbf</color>
 </resources>

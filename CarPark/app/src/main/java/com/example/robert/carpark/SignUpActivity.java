@@ -12,12 +12,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.robert.carpark.models.User;
 import com.google.android.gms.common.api.internal.RegisterListenerMethod;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -26,6 +29,10 @@ public class SignUpActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
     private static final int REQUEST_SIGNUP = 0;
     private FirebaseAuth mAuth;
+    private FirebaseDatabase mDatabase;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private DatabaseReference myRef;
+
 
 
     @InjectView(R.id.input_name) EditText _nameText;
@@ -42,6 +49,7 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         ButterKnife.inject(this);
         mAuth = FirebaseAuth.getInstance();
+
 
         _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +85,9 @@ public class SignUpActivity extends AppCompatActivity {
 
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
+
         registerNewEmail(email,password);
+
         // TODO: Implement your own signup logic here.
 
         new android.os.Handler().postDelayed(
@@ -164,6 +174,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                             FirebaseUser user = mAuth.getCurrentUser();
 
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -180,6 +191,11 @@ public class SignUpActivity extends AppCompatActivity {
     public void sendVerificationEmail() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
+            String userID = user.getUid();
+            String email = _emailText.getText().toString();
+            String userName = _nameText.getText().toString();
+            String phoneNumber = _inputMobile.getText().toString();
+            addUserToDatabase(userID, email, userName, phoneNumber);
             user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
@@ -192,5 +208,14 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    public void addUserToDatabase(String userID, String email, String username, String phoneNumber) {
+        mDatabase = FirebaseDatabase.getInstance();
+        myRef = mDatabase.getReference("");
+        String photoUrl = "https://www.google.ro/imgres?imgurl=http%3A%2F%2Fi.imgur.com%2FhfH9CiC.png&imgrefurl=https%3A%2F%2Flaracasts.com%2Fdiscuss%2Fchannels%2Fgeneral-discussion%2Ftrying-to-use-piece-of-class-object-inside-function-in-the-class&docid=_F2RkAevkGX7BM&tbnid=VXk8oH8_MzYk0M%3A&vet=10ahUKEwiW_Pjgz7_bAhUKK1AKHVlfBBUQMwg0KAAwAA..i&w=200&h=200&bih=672&biw=1366&q=generic%20user%20photo&ved=0ahUKEwiW_Pjgz7_bAhUKK1AKHVlfBBUQMwg0KAAwAA&iact=mrc&uact=8";
+        int prestige = 0;
+        User user = new User(username,email,phoneNumber,photoUrl,prestige);
+        myRef.child("Users").child(userID).setValue(user);
     }
 }

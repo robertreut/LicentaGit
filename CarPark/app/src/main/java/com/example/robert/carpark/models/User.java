@@ -8,14 +8,13 @@ import com.google.android.gms.maps.model.LatLng;
 public class User {
     private String UserID;
     private String Username;
-    private String Email;
     private String PhoneNumber;
     private String PhotoUrl;
-    private int Prestige;
+    private long Prestige;
 
-    public User(String Username,String Email, String PhoneNumber, String PhotoUrl, int Prestige) {
+    public User(String UserID, String Username, String PhoneNumber, String PhotoUrl, long Prestige) {
+        this.UserID = UserID;
         this.Username = Username;
-        this.Email = Email;
         this.PhoneNumber = PhoneNumber;
         this.PhotoUrl = PhotoUrl;
         this.Prestige = Prestige;
@@ -24,6 +23,9 @@ public class User {
 
     public User() {
     }
+    public String getUserID() { return UserID; }
+
+    public void setUserID(String UserID) {this.UserID = UserID;}
 
     public String getUsername() {
         return Username;
@@ -31,14 +33,6 @@ public class User {
 
     public void setUsername(String Username) {
         this.Username = Username;
-    }
-
-    public String getEmail() {
-        return Email;
-    }
-
-    public void setEmail(String Email) {
-        this.Email = Email;
     }
 
     public String getPhoneNumber() {
@@ -57,11 +51,11 @@ public class User {
         this.PhotoUrl = PhotoUrl;
     }
 
-    public int getPrestige() {
+    public long getPrestige() {
         return Prestige;
     }
 
-    public void setPrestige(int Prestige) {
+    public void setPrestige(long Prestige) {
         this.Prestige = Prestige;
     }
 
@@ -70,7 +64,6 @@ public class User {
         return "User{" +
                 "userID='" + UserID + '\'' +
                 ", username='" + Username + '\'' +
-                ", email='" + Email + '\'' +
                 ", phoneNumber='" + PhoneNumber + '\'' +
                 ", photoUrl='" + PhotoUrl + '\'' +
                 ", prestige=" + Prestige + '\'' +

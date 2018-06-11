@@ -192,10 +192,9 @@ public class SignUpActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             String userID = user.getUid();
-            String email = _emailText.getText().toString();
             String userName = _nameText.getText().toString();
             String phoneNumber = _inputMobile.getText().toString();
-            addUserToDatabase(userID, email, userName, phoneNumber);
+            addUserToDatabase(userID, userName, phoneNumber);
             user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
@@ -210,12 +209,12 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    public void addUserToDatabase(String userID, String email, String username, String phoneNumber) {
+    public void addUserToDatabase(String userID, String username, String phoneNumber) {
         mDatabase = FirebaseDatabase.getInstance();
         myRef = mDatabase.getReference("");
-        String photoUrl = "https://www.google.ro/imgres?imgurl=http%3A%2F%2Fi.imgur.com%2FhfH9CiC.png&imgrefurl=https%3A%2F%2Flaracasts.com%2Fdiscuss%2Fchannels%2Fgeneral-discussion%2Ftrying-to-use-piece-of-class-object-inside-function-in-the-class&docid=_F2RkAevkGX7BM&tbnid=VXk8oH8_MzYk0M%3A&vet=10ahUKEwiW_Pjgz7_bAhUKK1AKHVlfBBUQMwg0KAAwAA..i&w=200&h=200&bih=672&biw=1366&q=generic%20user%20photo&ved=0ahUKEwiW_Pjgz7_bAhUKK1AKHVlfBBUQMwg0KAAwAA&iact=mrc&uact=8";
-        int prestige = 0;
-        User user = new User(username,email,phoneNumber,photoUrl,prestige);
+        long prestige = 0;
+        String photoUrl = "https://firebasestorage.googleapis.com/v0/b/licenta-carpark.appspot.com/o/default-blue-462x462.png?alt=media&token=c5098373-7983-4166-8304-38c88238d6d4";
+        User user = new User(userID,username,phoneNumber,photoUrl,prestige);
         myRef.child("Users").child(userID).setValue(user);
     }
 }

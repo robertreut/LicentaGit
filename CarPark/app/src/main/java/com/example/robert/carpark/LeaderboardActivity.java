@@ -117,7 +117,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         user19prestige = findViewById(R.id.user19prestige);
         user20prestige = findViewById(R.id.user20prestige);
 
-        //initializeTable(getUsers());
+        InitializeTable();
         //
 
 
@@ -140,7 +140,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
     public void InitializeTable(){
 
-
+        Users.clear();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference().child("Users");
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -188,7 +188,88 @@ public class LeaderboardActivity extends AppCompatActivity {
     }
 
     private void populateViewTop(List users) {
+        User user = (User) Users.get(0);
+        user1rank.setText("1");
+        user1username.setText(user.getUsername());
+        user1prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(1);
+        user2rank.setText("2");
+        user2username.setText(user.getUsername());
+        user2prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(2);
+        user3rank.setText("3");
+        user3username.setText(user.getUsername());
+        user3prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(3);
+        user4rank.setText("4");
+        user4username.setText(user.getUsername());
+        user4prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(4);
+        user5rank.setText("5");
+        user5username.setText(user.getUsername());
+        user5prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(5);
+        user6rank.setText("6");
+        user6username.setText(user.getUsername());
+        user6prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(6);
+        user7rank.setText("7");
+        user7username.setText(user.getUsername());
+        user7prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(7);
+        user8rank.setText("8");
+        user8username.setText(user.getUsername());
+        user8prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(8);
+        user9rank.setText("9");
+        user9username.setText(user.getUsername());
+        user9prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(9);
+        user10rank.setText("10");
+        user10username.setText(user.getUsername());
+        user10prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(10);
+        user11rank.setText("11");
+        user11username.setText(user.getUsername());
+        user11prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(11);
+        user12rank.setText("12");
+        user12username.setText(user.getUsername());
+        user12prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(12);
+        user13rank.setText("13");
+        user13username.setText(user.getUsername());
+        user13prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(13);
+        user14rank.setText("14");
+        user14username.setText(user.getUsername());
+        user14prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(14);
+        user15rank.setText("15");
+        user15username.setText(user.getUsername());
+        user15prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(15);
+        user16rank.setText("16");
+        user16username.setText(user.getUsername());
+        user16prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(16);
+        user17rank.setText("17");
+        user17username.setText(user.getUsername());
+        user17prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(17);
+        user18rank.setText("18");
+        user18username.setText(user.getUsername());
+        user18prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(18);
+        user19rank.setText("19");
+        user19username.setText(user.getUsername());
+        user19prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(19);
+        user20rank.setText("20");
+        user20username.setText(user.getUsername());
+        user20prestige.setText(Long.toString(user.getPrestige()));
     }
+
 
     private void arrangeUsers(List users) {
         Collections.sort(users);
@@ -197,9 +278,157 @@ public class LeaderboardActivity extends AppCompatActivity {
 
 
     public void initializeAroundTable () {
+        Users.clear();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = mFirebaseDatabase.getReference().child("Users");
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+                HashMap Data = (HashMap) dataSnapshot.getValue();
+                Iterator it = Data.entrySet().iterator();
+                while (it.hasNext()) {
+                    Map.Entry pair = (Map.Entry) it.next();
+                    User userData = new User();
+                    HashMap Data2 = (HashMap) pair.getValue();
+                    userData.setUserID((String) pair.getKey());
+                    Iterator it2 = Data2.entrySet().iterator();
+                    while (it2.hasNext()) {
+                        Map.Entry pair2 = (Map.Entry) it2.next();
+
+                        if (pair2.getKey().equals("username")) {
+                            userData.setUsername((String) pair2.getValue());
+                        }
+                        if (pair2.getKey().equals("prestige")) {
+                            userData.setPrestige((long) pair2.getValue());
+                        }
+                        if (pair2.getKey().equals("phoneNumber")) {
+                            userData.setPhoneNumber((String) pair2.getValue());
+                        }
+                        it2.remove();
+                    }
+                    userData.setPhotoUrl("a");
+                    Users.add(userData);
+                    it.remove();
+                }
+                arrangeUsers(Users);
+                populateViewAround(Users);
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
     }
 
+    private void populateViewAround(List users) {
+        User user = (User) Users.get(0);
+        int place = 1;
+        for(int i=0; i<users.size(); i++) {
+            user = (User) Users.get(i);
+            if (user.getUserID().equals(userID)) {
+                place = i+1;
+            }
+        }
+        int start = getStartPosition(users.size(),place);
+        user = (User) Users.get(start);
+        user1rank.setText(Integer.toString(start+1));
+        user1username.setText(user.getUsername());
+        user1prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(start+1);
+        user2rank.setText(Integer.toString(start+2));
+        user2username.setText(user.getUsername());
+        user2prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(start+2);
+        user3rank.setText(Integer.toString(start+3));
+        user3username.setText(user.getUsername());
+        user3prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(start+3);
+        user4rank.setText(Integer.toString(start+4));
+        user4username.setText(user.getUsername());
+        user4prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(start+4);
+        user5rank.setText(Integer.toString(start+5));
+        user5username.setText(user.getUsername());
+        user5prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(start+5);
+        user6rank.setText(Integer.toString(start+6));
+        user6username.setText(user.getUsername());
+        user6prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(start+6);
+        user7rank.setText(Integer.toString(start+7));
+        user7username.setText(user.getUsername());
+        user7prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(start+7);
+        user8rank.setText(Integer.toString(start+8));
+        user8username.setText(user.getUsername());
+        user8prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(start+8);
+        user9rank.setText(Integer.toString(start+9));
+        user9username.setText(user.getUsername());
+        user9prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(start+9);
+        user10rank.setText(Integer.toString(start+10));
+        user10username.setText(user.getUsername());
+        user10prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(start+10);
+        user11rank.setText(Integer.toString(start+11));
+        user11username.setText(user.getUsername());
+        user11prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(start+11);
+        user12rank.setText(Integer.toString(start+12));
+        user12username.setText(user.getUsername());
+        user12prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(start+12);
+        user13rank.setText(Integer.toString(start+13));
+        user13username.setText(user.getUsername());
+        user13prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(start+13);
+        user14rank.setText(Integer.toString(start+14));
+        user14username.setText(user.getUsername());
+        user14prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(start+14);
+        user15rank.setText(Integer.toString(start+15));
+        user15username.setText(user.getUsername());
+        user15prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(start+15);
+        user16rank.setText(Integer.toString(start+16));
+        user16username.setText(user.getUsername());
+        user16prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(start+16);
+        user17rank.setText(Integer.toString(start+17));
+        user17username.setText(user.getUsername());
+        user17prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(start+17);
+        user18rank.setText(Integer.toString(start+18));
+        user18username.setText(user.getUsername());
+        user18prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(start+18);
+        user19rank.setText(Integer.toString(start+19));
+        user19username.setText(user.getUsername());
+        user19prestige.setText(Long.toString(user.getPrestige()));
+        user = (User) Users.get(start+19);
+        user20rank.setText(Integer.toString(start+20));
+        user20username.setText(user.getUsername());
+        user20prestige.setText(Long.toString(user.getPrestige()));
+
+
+    }
+
+    private int getStartPosition(int size, int place) {
+        if((size-place >= 10) && (place>9)){
+            return place-10;
+        }
+        if(place<10){
+            return 0;
+        }
+        return size-20;
+    }
 
     private void setupFirebaseAuth(){
         Log.d(TAG, "setupFirebaseAuth: setting up firebase auth.");

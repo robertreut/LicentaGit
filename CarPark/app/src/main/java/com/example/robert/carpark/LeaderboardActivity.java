@@ -20,6 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -174,6 +175,7 @@ public class LeaderboardActivity extends AppCompatActivity {
                                 it.remove();
                             }
                 arrangeUsers(Users);
+                populateViewTop(Users);
             }
 
 
@@ -185,8 +187,12 @@ public class LeaderboardActivity extends AppCompatActivity {
 
     }
 
-    private void arrangeUsers(List users) {
+    private void populateViewTop(List users) {
+    }
 
+    private void arrangeUsers(List users) {
+        Collections.sort(users);
+        Users=users;
     }
 
 

@@ -2,10 +2,11 @@ package com.example.robert.carpark.models;
 
 
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class User {
+public class User implements Comparable<User>{
     private String UserID;
     private String Username;
     private String PhoneNumber;
@@ -71,4 +72,10 @@ public class User {
     }
 
 
+    @Override
+    public int compareTo(@NonNull User compareUser) {
+
+        int comparePrestige = (int)((User) compareUser).getPrestige();
+        return comparePrestige - (int)this.Prestige;
+    }
 }

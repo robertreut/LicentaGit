@@ -125,7 +125,7 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
                 startActivity(intent);
                 return true;
             case R.id.LeaderBoard:
-                intent = new Intent(SearchActivity.this, SignUpActivity.class);
+                intent = new Intent(SearchActivity.this, LeaderboardActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.Report:

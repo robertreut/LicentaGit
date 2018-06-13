@@ -57,7 +57,8 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".PasswordResetDialog" />
-        <activity android:name=".AccountSettingsActivity"></activity>
+        <activity android:name=".AccountSettingsActivity" />
+        <activity android:name=".LeaderboardActivity"></activity>
     </application>
 
 </manifest>

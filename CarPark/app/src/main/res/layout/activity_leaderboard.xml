@@ -1,0 +1,685 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fitsSystemWindows="true">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <TableRow android:id="@+id/linearLayout1"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent">
+        <Button android:id="@+id/topUsers"
+            android:text="Top users"
+            android:layout_height="40sp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:onClick="myClickHandle"></Button>
+
+        <Button android:id="@+id/aroundUsers"
+            android:text="My rank"
+            android:layout_height="40sp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:onClick="myClickHandle">
+        </Button>
+        </TableRow>
+
+        <TableRow>
+        <TextView
+            android:id="@+id/Table_header_1"
+            android:text="Rank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30dip"
+            android:textStyle="bold"
+            android:width="0dp"
+            android:layout_weight="0.2"/>
+        <TextView
+            android:id="@+id/Table_header_2"
+            android:text="Username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30dip"
+            android:textStyle="bold"
+            android:width="0dp"
+            android:layout_weight="0.5"/>/>
+
+            <TextView
+                android:id="@+id/Table_header_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:width="0dp"
+                android:text="Prestige"
+                android:textSize="30dip"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/user1rank"
+                android:text="Rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:id="@+id/user1username"
+                android:text="Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.5"/>/>
+
+            <TextView
+                android:id="@+id/user1prestige"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:width="0dp"
+                android:text="Prestige"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/user2rank"
+                android:text="Rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:id="@+id/user2username"
+                android:text="Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.5"/>/>
+
+            <TextView
+                android:id="@+id/user2prestige"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:width="0dp"
+                android:text="Prestige"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/user3rank"
+                android:text="Rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:id="@+id/user3username"
+                android:text="Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.5"/>/>
+
+            <TextView
+                android:id="@+id/user3prestige"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:width="0dp"
+                android:text="Prestige"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/user4rank"
+                android:text="Rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:id="@+id/user4username"
+                android:text="Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.5"/>/>
+
+            <TextView
+                android:id="@+id/user4prestige"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:width="0dp"
+                android:text="Prestige"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/user5rank"
+                android:text="Rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:id="@+id/user5username"
+                android:text="Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.5"/>/>
+
+            <TextView
+                android:id="@+id/user5prestige"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:width="0dp"
+                android:text="Prestige"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/user6rank"
+                android:text="Rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:id="@+id/user6username"
+                android:text="Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.5"/>/>
+
+            <TextView
+                android:id="@+id/user6prestige"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:width="0dp"
+                android:text="Prestige"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/user7rank"
+                android:text="Rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:id="@+id/user7username"
+                android:text="Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.5"/>/>
+
+            <TextView
+                android:id="@+id/user7prestige"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:width="0dp"
+                android:text="Prestige"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/user8rank"
+                android:text="Rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:id="@+id/user8username"
+                android:text="Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.5"/>/>
+
+            <TextView
+                android:id="@+id/user8prestige"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:width="0dp"
+                android:text="Prestige"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/user9rank"
+                android:text="Rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:id="@+id/user9username"
+                android:text="Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.5"/>/>
+
+            <TextView
+                android:id="@+id/user9prestige"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:width="0dp"
+                android:text="Prestige"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/user10rank"
+                android:text="Rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:id="@+id/user10username"
+                android:text="Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.5"/>/>
+
+            <TextView
+                android:id="@+id/user10prestige"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:width="0dp"
+                android:text="Prestige"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/user11rank"
+                android:text="Rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:id="@+id/user11username"
+                android:text="Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.5"/>/>
+
+            <TextView
+                android:id="@+id/user11prestige"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:width="0dp"
+                android:text="Prestige"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/user12rank"
+                android:text="Rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:id="@+id/user12username"
+                android:text="Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.5"/>/>
+
+            <TextView
+                android:id="@+id/user12prestige"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:width="0dp"
+                android:text="Prestige"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/user13rank"
+                android:text="Rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:id="@+id/user13username"
+                android:text="Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.5"/>/>
+
+            <TextView
+                android:id="@+id/user13prestige"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:width="0dp"
+                android:text="Prestige"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/user14rank"
+                android:text="Rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:id="@+id/user14username"
+                android:text="Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.5"/>/>
+
+            <TextView
+                android:id="@+id/user14prestige"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:width="0dp"
+                android:text="Prestige"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/user15rank"
+                android:text="Rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:id="@+id/user15username"
+                android:text="Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.5"/>/>
+
+            <TextView
+                android:id="@+id/user15prestige"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:width="0dp"
+                android:text="Prestige"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/user16rank"
+                android:text="Rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:id="@+id/user16username"
+                android:text="Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.5"/>/>
+
+            <TextView
+                android:id="@+id/user16prestige"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:width="0dp"
+                android:text="Prestige"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/user17rank"
+                android:text="Rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:id="@+id/user17username"
+                android:text="Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.5"/>/>
+
+            <TextView
+                android:id="@+id/user17prestige"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:width="0dp"
+                android:text="Prestige"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/user18rank"
+                android:text="Rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:id="@+id/user18username"
+                android:text="Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.5"/>/>
+
+            <TextView
+                android:id="@+id/user18prestige"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:width="0dp"
+                android:text="Prestige"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/user19rank"
+                android:text="Rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:id="@+id/user19username"
+                android:text="Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.5"/>/>
+
+            <TextView
+                android:id="@+id/user19prestige"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:width="0dp"
+                android:text="Prestige"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/user20rank"
+                android:text="Rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:id="@+id/user20username"
+                android:text="Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textStyle="bold"
+                android:width="0dp"
+                android:layout_weight="0.5"/>/>
+
+            <TextView
+                android:id="@+id/user20prestige"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:width="0dp"
+                android:text="Prestige"
+                android:textSize="15dip"
+                android:textStyle="bold" />
+        </TableRow>
+
+
+
+    </TableLayout>
+</ScrollView>

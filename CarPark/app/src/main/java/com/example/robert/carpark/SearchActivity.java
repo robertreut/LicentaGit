@@ -1,15 +1,15 @@
 package com.example.robert.carpark;
 
-import android.*;
 import android.Manifest;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +23,6 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +35,7 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.ActivityRecognition;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.AutocompletePrediction;
@@ -44,17 +44,14 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -62,9 +59,8 @@ import com.google.firebase.auth.FirebaseUser;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.*;
 
-public class SearchActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
+public class SearchActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
     GoogleMap mGoogleMap;
     private static final String TAG = "SeachActivity";
@@ -95,10 +91,14 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
             mGps = (ImageView) findViewById(R.id.ic_gps);
             mPlacePicker = (ImageView) findViewById(R.id.place_Picker);
             getLocationPermission();
+
+
         } else {
             //No google maps layout
         }
     }
+
+
 
     //ADD THIS TO ALL ACTIVITIES
     @Override
@@ -180,7 +180,11 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
                 .addApi(Places.GEO_DATA_API)
                 .addApi(Places.PLACE_DETECTION_API)
                 .enableAutoManage(this, this)
+                .addApi(ActivityRecognition.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
                 .build();
+        mGoogleApiClient.connect();
 
         mGeoDataClient = Places.getGeoDataClient(this, null);
         mSearchText.setOnItemClickListener(mAutocompleteClickListener);
@@ -467,7 +471,19 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(SearchActivity.this,"Connection failed, please connect to internet.",Toast.LENGTH_LONG).show();
+    }
 
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        Intent intent = new Intent( this, ActivityRecognizedService.class );
+        PendingIntent pendingIntent = PendingIntent.getService( this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT );
+        ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates( mGoogleApiClient, 5000, pendingIntent );
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        Toast.makeText(SearchActivity.this,"Connection was suspended, please reconnect",Toast.LENGTH_LONG).show();
     }
 }
 

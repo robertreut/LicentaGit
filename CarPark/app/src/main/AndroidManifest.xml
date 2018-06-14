@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
 
     <permission
         android:name="com.example.robert.carpark.permission.MAPS_RECEIVE"
@@ -59,6 +60,16 @@
         <activity android:name=".PasswordResetDialog" />
         <activity android:name=".AccountSettingsActivity" />
         <activity android:name=".LeaderboardActivity"></activity>
+
+        <service android:name=".ActivityRecognizedService" />
     </application>
 
 </manifest>
+
+
+
+
+
+
+
+

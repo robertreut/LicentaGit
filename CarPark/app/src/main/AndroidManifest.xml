@@ -59,17 +59,11 @@
 
         <activity android:name=".PasswordResetDialog" />
         <activity android:name=".AccountSettingsActivity" />
-        <activity android:name=".LeaderboardActivity"></activity>
+        <activity android:name=".LeaderboardActivity" />
 
         <service android:name=".ActivityRecognizedService" />
+
+        <activity android:name=".AutomatedReport"></activity>
     </application>
 
 </manifest>
-
-
-
-
-
-
-
-

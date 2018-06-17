@@ -8,11 +8,10 @@ public class Activity {
     private String ActivityName;
     private double latitude;
     private double longitude;
+    private long time;
 
-    public Activity(String ActivityName, double latitude, double longitude) {
+    public Activity(String ActivityName, long time) {
         this.ActivityName = ActivityName;
-        this.latitude = latitude;
-        this.longitude = longitude;
     }
 
     public Activity() {}
@@ -30,5 +29,9 @@ public class Activity {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
+
+    public void setTime(long time) { this.time = time;}
+
+    public long getTime() { return time; }
 }
 

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
+import com.example.robert.carpark.AutomatedReport;
 import com.example.robert.carpark.LeaderboardActivity;
 import com.example.robert.carpark.R;
 
@@ -21,7 +22,7 @@ public class NotificationGenerator {
         NotificationCompat.Builder nc = new NotificationCompat.Builder(context);
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent notifyIntent = new Intent(context, LeaderboardActivity.class);
+        Intent notifyIntent = new Intent(context, AutomatedReport.class);
 
         notifyIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 

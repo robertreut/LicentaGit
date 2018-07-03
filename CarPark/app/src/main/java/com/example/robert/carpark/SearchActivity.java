@@ -130,7 +130,7 @@ public class SearchActivity extends AppCompatActivity implements OnMapReadyCallb
                 startActivity(intent);
                 return true;
             case R.id.Report:
-                intent = new Intent(SearchActivity.this, AutomatedReport.class);
+                intent = new Intent(SearchActivity.this, RequestedReport.class);
                 startActivity(intent);
                 return true;
             default:

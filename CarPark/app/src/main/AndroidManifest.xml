@@ -63,7 +63,8 @@
 
         <service android:name=".ActivityRecognizedService" />
 
-        <activity android:name=".AutomatedReport"></activity>
+        <activity android:name=".AutomatedReport" />
+        <activity android:name=".RequestedReport"></activity>
     </application>
 
 </manifest>

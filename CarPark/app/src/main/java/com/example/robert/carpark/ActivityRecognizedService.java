@@ -392,7 +392,7 @@ public class ActivityRecognizedService extends IntentService {
         myRef = mFirebaseDatabase.getReference();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        if (user !x= null) {
+        if (user != null) {
             userID = mAuth.getCurrentUser().getUid();
 
             try {

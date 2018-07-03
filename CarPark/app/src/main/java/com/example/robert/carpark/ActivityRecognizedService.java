@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -46,6 +47,8 @@ public class ActivityRecognizedService extends IntentService {
     private DatabaseReference myRef;
     private String userID;
 
+    public int notNR = 0;
+
     public ActivityRecognizedService() {
         super("ActivityRecognizedService");
     }
@@ -56,9 +59,6 @@ public class ActivityRecognizedService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-//        NowActivity.setActivityName("STILL");
-//        NowActivity.setTime(0);
-//        activities.add(NowActivity);
         if(ActivityRecognitionResult.hasResult(intent)) {
             ActivityRecognitionResult result = ActivityRecognitionResult.extractResult(intent);
             handleDetectedActivities( result.getProbableActivities() );
@@ -80,23 +80,17 @@ public class ActivityRecognizedService extends IntentService {
                                 activities.remove(0);
                             }
                             activities.add(NowActivity);
+                            notifyTemp(NowActivity.getActivityName());
                             getDeviceLocation();
                         }
                         else {
                             activities.add(NowActivity);
+                            notifyTemp(NowActivity.getActivityName());
                             getDeviceLocation();
                         }
                     } else {
                         ProbableActivity[0]=activity.getConfidence();
                     }
-
-//                    if( activity.getConfidence() >= 75 ) {
-//                        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-//                        builder.setContentText( "Car" );
-//                        builder.setSmallIcon( R.mipmap.ic_launcher );
-//                        builder.setContentTitle( getString( R.string.app_name ) );
-//                        NotificationManagerCompat.from(this).notify(0, builder.build());
-//                    }
                     break;
                 }
                 case DetectedActivity.ON_BICYCLE: {
@@ -109,10 +103,12 @@ public class ActivityRecognizedService extends IntentService {
                                 activities.remove(0);
                             }
                                 activities.add(NowActivity);
+                                notifyTemp(NowActivity.getActivityName());
                                 getDeviceLocation();
                         }
                         else {
                             activities.add(NowActivity);
+                            notifyTemp(NowActivity.getActivityName());
                             getDeviceLocation();
                         }
                     } else {
@@ -138,11 +134,13 @@ public class ActivityRecognizedService extends IntentService {
                                 activities.remove(0);
                             }
                                 activities.add(NowActivity);
+                                notifyTemp(NowActivity.getActivityName());
                                 getDeviceLocation();
 
                         }
                         else {
                             activities.add(NowActivity);
+                            notifyTemp(NowActivity.getActivityName());
                             getDeviceLocation();
                         }
                     } else {
@@ -159,6 +157,26 @@ public class ActivityRecognizedService extends IntentService {
                 }
                 case DetectedActivity.RUNNING: {
                     Log.e( "ActivityRecogition", "Running: " + activity.getConfidence() );
+                    if( activity.getConfidence() >= 75 ) {
+                        NowActivity.setActivityName("RUNNING");
+                        NowActivity.setTime(System.currentTimeMillis());
+                        if( !activities.isEmpty()) {
+                            if (NowActivity.getTime() - (activities.get(0)).getTime() >= 180000) {
+                                activities.remove(0);
+                            }
+                            activities.add(NowActivity);
+                            notifyTemp(NowActivity.getActivityName());
+                            getDeviceLocation();
+
+                        }
+                        else {
+                            activities.add(NowActivity);
+                            notifyTemp(NowActivity.getActivityName());
+                            getDeviceLocation();
+                        }
+                    } else {
+                        ProbableActivity[4]=activity.getConfidence();
+                    }
                     break;
                 }
                 case DetectedActivity.STILL: {
@@ -171,17 +189,19 @@ public class ActivityRecognizedService extends IntentService {
                                     activities.remove(0);
                                 }
                                     activities.add(NowActivity);
+                                notifyTemp(NowActivity.getActivityName());
                                     getDeviceLocation();
 
                             }
                             else {
                                 activities.add(NowActivity);
+                                notifyTemp(NowActivity.getActivityName());
                                 getDeviceLocation();
                             }
                         } else {
                             ProbableActivity[3]=activity.getConfidence();
                         }
-                        //NotificationGenerator.openActivityNotification(getApplicationContext());
+
 //                        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 //                        builder.setContentText( "Still" );
 //                        builder.setSmallIcon( R.drawable.ic_car );
@@ -192,27 +212,10 @@ public class ActivityRecognizedService extends IntentService {
                 }
                 case DetectedActivity.TILTING: {
                     Log.e( "ActivityRecogition", "Tilting: " + activity.getConfidence() );
-                    if( activity.getConfidence() >= 75 ) {
-                        NowActivity.setActivityName("TILTING");
-                        NowActivity.setTime(System.currentTimeMillis());
-                        if( !activities.isEmpty()) {
-                            if (NowActivity.getTime() - (activities.get(0)).getTime() >= 180000) {
-                                activities.remove(0);
-                            }
-                                activities.add(NowActivity);
-                                getDeviceLocation();
 
-                        }
-                        else {
-                            activities.add(NowActivity);
-                            getDeviceLocation();
-                        }
-                    } else {
-                        ProbableActivity[4]=activity.getConfidence();
-                    }
-                    if( activity.getConfidence() >= 75 ) {
-                        NotificationGenerator.openActivityNotification(getApplicationContext());
-                    }
+//                    if( activity.getConfidence() >= 75 ) {
+//                        NotificationGenerator.openActivityNotification(getApplicationContext());
+//                    }
                     break;
                 }
                 case DetectedActivity.WALKING: {
@@ -251,11 +254,13 @@ public class ActivityRecognizedService extends IntentService {
                                 activities.remove(0);
                             }
                                 activities.add(NowActivity);
+                            notifyTemp(NowActivity.getActivityName());
                                 getDeviceLocation();
 
                         }
                         else {
                             activities.add(NowActivity);
+                            notifyTemp(NowActivity.getActivityName());
                             getDeviceLocation();
                         }
                     } else {
@@ -277,68 +282,54 @@ public class ActivityRecognizedService extends IntentService {
 
     private void buildActivity() {
         //build activity from array;
-        if (ProbableActivity[0]+ProbableActivity[3]+ProbableActivity[5] < 80) {
+        if (ProbableActivity[0] + ProbableActivity[3] + ProbableActivity[5] > 80) {
             NowActivity.setActivityName("UNKNOWN+");
             NowActivity.setTime(System.currentTimeMillis());
-            if( !activities.isEmpty()) {
+            if (!activities.isEmpty()) {
                 if (NowActivity.getTime() - (activities.get(0)).getTime() >= 180000) {
                     activities.remove(0);
                 }
-                    activities.add(NowActivity);
-                    getDeviceLocation();
-
-            }
-            else {
                 activities.add(NowActivity);
+                notifyTemp(NowActivity.getActivityName());
+                getDeviceLocation();
+
+            } else {
+                activities.add(NowActivity);
+                notifyTemp(NowActivity.getActivityName());
                 getDeviceLocation();
             }
-        }
-        if (ProbableActivity[0]+ProbableActivity[3]+ProbableActivity[5] > 80 && ProbableActivity[0]+ProbableActivity[3]+ProbableActivity[5] > 60) {
-            NowActivity.setActivityName("UNKNOWN");
-            NowActivity.setTime(System.currentTimeMillis());
-            if( !activities.isEmpty()) {
-                if (NowActivity.getTime() - (activities.get(0)).getTime() >= 180000) {
-                    activities.remove(0);
+        } else {
+            if (ProbableActivity[0] + ProbableActivity[3] + ProbableActivity[5] > 50) {
+                NowActivity.setActivityName("UNKNOWN");
+                NowActivity.setTime(System.currentTimeMillis());
+                if (!activities.isEmpty()) {
+                    if (NowActivity.getTime() - (activities.get(0)).getTime() >= 180000) {
+                        activities.remove(0);
+                    }
+                    activities.add(NowActivity);
+                    notifyTemp(NowActivity.getActivityName());
+                    getDeviceLocation();
+
+                } else {
+                    activities.add(NowActivity);
+                    notifyTemp(NowActivity.getActivityName());
+                    getDeviceLocation();
                 }
+            } else {
+                NowActivity.setActivityName("UNKNOWN-");
+                NowActivity.setTime(System.currentTimeMillis());
+                if (!activities.isEmpty()) {
+                    if (NowActivity.getTime() - (activities.get(0)).getTime() >= 180000) {
+                        activities.remove(0);
+                    }
                     activities.add(NowActivity);
+                    notifyTemp(NowActivity.getActivityName());
                     getDeviceLocation();
-
-            }
-            else {
-                activities.add(NowActivity);
-                getDeviceLocation();
-            }
-        }
-        if (ProbableActivity[0]+ProbableActivity[3]+ProbableActivity[5] > 80 && ProbableActivity[0]+ProbableActivity[3]+ProbableActivity[5] > 60) {
-            NowActivity.setActivityName("UNKNOWN");
-            NowActivity.setTime(System.currentTimeMillis());
-            if( !activities.isEmpty()) {
-                if (NowActivity.getTime() - (activities.get(0)).getTime() >= 180000) {
-                    activities.remove(0);
+                } else {
+                    activities.add(NowActivity);
+                    notifyTemp(NowActivity.getActivityName());
+                    getDeviceLocation();
                 }
-                    activities.add(NowActivity);
-                    getDeviceLocation();
-
-            }
-            else {
-                activities.add(NowActivity);
-                getDeviceLocation();
-            }
-        }
-        if (ProbableActivity[2]+ProbableActivity[4] > 60) {
-            NowActivity.setActivityName("UNKNOWN-");
-            NowActivity.setTime(System.currentTimeMillis());
-            if( !activities.isEmpty()) {
-                if (NowActivity.getTime() - (activities.get(0)).getTime() >= 180000) {
-                    activities.remove(0);
-                }
-                    activities.add(NowActivity);
-                    getDeviceLocation();
-
-            }
-            else {
-                activities.add(NowActivity);
-                getDeviceLocation();
             }
         }
     }
@@ -366,7 +357,7 @@ public class ActivityRecognizedService extends IntentService {
             if (activities.get(i).getActivityName().equals("UNKNOWN-")) {
                 UNKNOWN_MINUS++;
             }
-            if (activities.get(i).getActivityName().equals("TILTING")) {
+            if (activities.get(i).getActivityName().equals("RUNNING")) {
                 TILTING++;
             }
             if (activities.get(i).getActivityName().equals("STILL")) {
@@ -377,64 +368,76 @@ public class ActivityRecognizedService extends IntentService {
             }
         }
 
+
+
+
         if( IN_VEHICLE >= 1){
             int sum = IN_VEHICLE + UNKNOWN_PLUS + STILL + UNKNOWN;
             double percentage = sum/activities.size()*100;
-            if (percentage > 85.00) {
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-                builder.setContentText( "HAVE YOU JUST PARKED???" );
-                builder.setSmallIcon( R.drawable.ic_car);
-                builder.setContentTitle( getString( R.string.app_name ) );
-                NotificationManagerCompat.from(this).notify(0, builder.build());
-
+            notifyTemp(String.valueOf(percentage));
+            if (percentage > 75.00) {
+                NotificationGenerator.openActivityNotification(getApplicationContext());
             }
         }
 
         //Check activities to show notification;
     }
 
-    private void getDeviceLocation(){
+    private void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
-        userID = mAuth.getCurrentUser().getUid();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user !x= null) {
+            userID = mAuth.getCurrentUser().getUid();
+
+            try {
+                if (mLocationPermissionsGranted) {
+
+                    final Task location = mFusedLocationProviderClient.getLastLocation();
+                    location.addOnCompleteListener(new OnCompleteListener() {
+                        @Override
+                        public void onComplete(@NonNull Task task) {
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "onComplete: found location!");
+                                Location currentLocation = (Location) task.getResult();
+                                String latitude = String.valueOf(currentLocation.getLatitude());
+                                String longitude = String.valueOf(currentLocation.getLongitude());
+                                String currentLocationString = latitude + "," + longitude;
 
 
-        try{
-            if(mLocationPermissionsGranted){
-
-                final Task location = mFusedLocationProviderClient.getLastLocation();
-                location.addOnCompleteListener(new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        if(task.isSuccessful()){
-                            Log.d(TAG, "onComplete: found location!");
-                            Location currentLocation = (Location) task.getResult();
-                            String latitude = String.valueOf(currentLocation.getLatitude());
-                            String longitude = String.valueOf(currentLocation.getLongitude());
-                            String currentLocationString = latitude + "," + longitude;
-
-
-                            myRef.child("Users")
-                                    .child(userID)
-                                    .child("LastKnownLocation")
-                                    .setValue(currentLocationString);
+                                myRef.child("Users")
+                                        .child(userID)
+                                        .child("LastKnownLocation")
+                                        .setValue(currentLocationString);
 
 //                            moveCameraUser(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
 //                                    DEFAULT_ZOOM);
 
-                        }else{
-                            Log.d(TAG, "onComplete: current location is null");
+                            } else {
+                                Log.d(TAG, "onComplete: current location is null");
+                            }
                         }
-                    }
-                });
+                    });
+                }
+            } catch (SecurityException e) {
+                Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage());
             }
-        }catch (SecurityException e){
-            Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage() );
         }
+    }
+
+    public void notifyTemp(String Type) {
+        notNR++;
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+                        builder.setContentText(Type);
+                        builder.setSmallIcon( R.drawable.ic_car );
+                        builder.setContentTitle( getString( R.string.app_name ) );
+                        NotificationManagerCompat.from(this).notify(0, builder.build());
+
     }
 }
 

@@ -233,6 +233,7 @@ public class LogInActivity extends AppCompatActivity {
         if(mAuthListener != null) {
             FirebaseAuth.getInstance().removeAuthStateListener(mAuthListener);
         }
+
     }
 
     //////////////////////////User Account prorpieties////////////////////////////////
